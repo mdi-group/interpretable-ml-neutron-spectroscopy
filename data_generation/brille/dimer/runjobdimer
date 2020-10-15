@@ -1,0 +1,25 @@
+#!/bin/bash
+
+prefix=/work3/isis/scarfxxx
+data_path=/work3/isis/scarfxxx/pcsmo_tobyfit/dimer
+
+echo Setting up environment variables
+MCRROOT=${prefix}/lib/mcr2017b/v98
+echo ---
+LD_LIBRARY_PATH=.:${MCRROOT}/runtime/glnxa64 ;
+LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${MCRROOT}/bin/glnxa64 ;
+LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${MCRROOT}/sys/os/glnxa64;
+LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${MCRROOT}/sys/opengl/lib/glnxa64;
+LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${data_path};
+export LD_LIBRARY_PATH;
+echo LD_LIBRARY_PATH is ${LD_LIBRARY_PATH};
+exe_dir=`dirname "$0"`
+
+for ((ii=0; ii<10; ii++))
+do
+  jvec=$(python -c "import numpy as np; print('{} {} {} {} {} {}'.format(float(np.random.uniform(-20, 0)), float(np.random.uniform(-3, 3)), float(np.random.uniform(-3, 3)), float(np.random.uniform(-20, 0)), float(np.random.uniform(0, 3)), float(np.random.uniform(0, 0.2))))")
+  uuid=$(python -c "import uuid; print(str(uuid.uuid4())[:8])")
+  outfile=resolution_spec_${uuid}.mat
+  workdir=${data_path}/wd_${uuid}
+  cp -r ${data_path}/modeldir ${workdir} && cd ${workdir} && time eval ${data_path}/model_eval dimer $jvec && mv output.mat ${data_path}/conv/${outfile} && cd .. && rm -r ${workdir}
+done
