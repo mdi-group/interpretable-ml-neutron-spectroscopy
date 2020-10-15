@@ -1,0 +1,12 @@
+[submodule "data_generation/src/spinw"]
+	path = data_generation/src/spinw
+	url = https://github.com/spinw/spinw.git
+[submodule "data_generation/src/brillem"]
+	path = data_generation/src/brillem
+	url = https://github.com/brille/brillem.git
+[submodule "data_generation/src/Horace"]
+	path = data_generation/src/Horace
+	url = https://github.com/pace-neutrons/Horace.git
+[submodule "data_generation/src/Herbert"]
+	path = data_generation/src/Herbert
+	url = https://github.com/pace-neutrons/Herbert.git
