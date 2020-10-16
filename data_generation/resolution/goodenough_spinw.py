@@ -25,7 +25,6 @@ class goodenough_spinw(object):
             spinw.initialize_runtime(['-nodisplay'])
             MATLABENGINE = spinw.initialize()
         self.m = MATLABENGINE
-        self.m.addpath(self.m.genpath(spinw_path))
         self.obj = self.m.prcasrmn2o7(md([0]*6))
 
     def set_j(self, jvec=None):
@@ -38,8 +37,9 @@ class goodenough_spinw(object):
             raise RuntimeError('You must give an input J vector (array) which can have up to 6 elements and is '
                                'assumed to give the parameters in the following order: [JF1, JA, JF2, JF3, Jperp, D]')
         jvec = [j for j in jvec] + [0] * (6 - len(jvec)) # Sets undefined exchanges to zero
-        self.m.matparser(self.obj, 'param', md(jvec), 'mat', ['JF1', 'JA', 'JF2', 'JF3', 'Jperp', 'D(3,3)'], nargout=0)
         self.m.ass('swobj', self.obj, nargout=0)
+        self.m.ass('jvec', md(jvec), nargout=0)
+        self.m.ev("swobj.matparser('param', jvec, 'mat', {'JF1', 'JA', 'JF2', 'JF3', 'Jperp', 'D(3,3)'});", nargout=0)
         # Define twins
         self.m.ev('swobj.twin.rotc(:,:,2) = [0 1 0; 1 0 0; 0 0 0];', nargout=0)
         self.m.ev('swobj.twin.vol = [0.5 0.5];', nargout=0)
