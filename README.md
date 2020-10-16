@@ -1,7 +1,7 @@
 # interpretable-ml-neutron-spectroscopy
 A repository of code associated with the publication _Interpretable, calibrated neural networks for analysis and understanding of neutron spectra_
 
-Data associated with training the neural networks in this repo is available at **10.5281/zenodo.4088240**
+Data associated with training the neural networks in this repo is available at [**10.5281/zenodo.4088240**](https://zenodo.org/deposit/4088240)
 
 ## Generating Data
 
@@ -17,7 +17,7 @@ There are different `conda` environments associated with the different codes:
 
 ## Notebook examples
 
-The notebook examples in the `duq` and `interpret` directories load pre-trained models and apply them to experimental data, so that you can re-create the results from the paper without re-training the networks. The saved weights are too large for this *GitHub* repository, but are available in the associated data repository **10.5281/zenodo.4088240** in the file `model-weights.tgz`. Once this file is untarred and unzipped, weights files corresponding to those in the notebooks will be present.   
+The notebook examples in the `duq` and `interpret` directories load pre-trained models and apply them to experimental data, so that you can re-create the results from the paper without re-training the networks. The saved weights are too large for this *GitHub* repository, but are available in the associated data repository [**10.5281/zenodo.4088240**](https://zenodo.org/deposit/4088240) in the file `model-weights.tgz`. Once this file is untarred and unzipped, weights files corresponding to those in the notebooks will be present.   
 
 To run the `duq` notebook you should launch a `jupyter` notebook in the `conda` environment described in `environment-torch.yml`
 ```
