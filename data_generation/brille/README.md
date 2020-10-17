@@ -7,6 +7,9 @@ However, this 421MB file is too large to be stored in this git repository.
 Instead it is available at: [10.5281/zenodo.4088240](https://doi.org/10.5281/zenodo.4088240).
 Please download that archive and place the `model_eval` file in this folder.
 Like the Python modules in the `resolution` folder it also requires the [Matlab Compiler Runtime (MCR) version 2017b](https://www.mathworks.com/products/compiler/matlab-runtime.html).
+In addition, to run this executable you also have to have the `brille` Python module installed (using e.g. `pip install brille`).
+Finally, the executable has hard coded in the path `/usr/bin/python3` as the python interpreter.
+If your system Python is not located there please create a symlink to it.
 
 The are subfolders for the `goodenough` and `dimer` models, each with a `runjob` script to be run using `sbatch --array=0-199 runjob`.
 Each `runjob` script runs a separate `runjob[goodenough|dimer]` script to run sets of 10 calculations each iteration.
