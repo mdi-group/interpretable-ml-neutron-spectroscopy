@@ -255,5 +255,3 @@ dependencies:
     - typeguard==2.9.1
     - websocket-client==0.57.0
     - xgboost==1.0.2
-prefix: /home/mts87985/src/anaconda3/envs/tf2
-

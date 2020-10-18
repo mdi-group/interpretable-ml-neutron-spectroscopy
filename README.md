@@ -21,14 +21,48 @@ The notebook examples in the `duq` and `interpret` directories load pre-trained 
 
 To run the `duq` notebook you should launch a `jupyter` notebook in the `conda` environment described in `environment-torch.yml`
 ```
-conda env create -f environment-torch.yml -n duq
+conda env create -f environment_torch.yml -n duq
 conda activate duq
 jupyter notebook
 ```
 
 To run the `interpret` notebook you should launch a `jupyter` notebook in the `conda` environment described in `environment-tf.yml`
 ```
-conda env create -f environment-tf.yml -n interpret
+conda env create -f environment_tf.yml -n interpret
 conda activate interpret
 jupyter notebook
 ```
+
+## Using Docker
+
+You can also use the provided Dockerfile to build a Docker container to run the codes.
+
+```
+docker build -t ml_ins https://github.com/keeeto/interpretable-ml-neutron-spectroscopy
+docker run --rm -ti -p 8888:8888 -p 8889:8889 ml_ins /bin/bash
+```
+
+This will put you into a command prompt. To run the data generation:
+
+```
+conda activate data
+cd ~/interpretable-ml-neutron-spectroscopy/data_generation/resolution && python generate_goodenough_resolution.py
+cd ~/interpretable-ml-neutron-spectroscopy/data_generation/resolution && python generate_dimer_resolution.py
+cd ~/interpretable-ml-neutron-spectroscopy/data_generation/brille/goodenough && bash runjobgoodenough
+cd ~/interpretable-ml-neutron-spectroscopy/data_generation/brille/dimer && bash runjobdimer
+```
+
+To run the notebooks
+
+```
+conda activate duq
+jupyter notebook --ip=0.0.0.0 --port=8888 --allow-root &
+conda activate interpret
+jupyter notebook --ip=0.0.0.0 --port=8889 --allow-root &
+```
+
+Then you can browse the DUQ notebooks at `http://localhost:8888` and the CAM notebooks at `http://localhost:8889`.
+Please note the tokens printed on the command line output as you need these to log on.
+
+You can also run these containers in Windows, as long as you have the Windows Subsystem for Linux version 2 (WSL2) in Windows 10.
+Please see the [docker documentation](https://docs.docker.com/docker-for-windows/wsl/) for how to run Docker under Windows.
