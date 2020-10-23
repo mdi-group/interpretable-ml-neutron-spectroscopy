@@ -34,34 +34,42 @@ jupyter notebook
 
 ## Using Docker
 
-You can also use the provided Dockerfile to build a Docker container to run the codes.
+You can also use the provided Dockerfiles to build Docker containers to run the codes.
+There are three containers, one to run SpinW/Brille to generate the training data,
+one to run the DUQ classifier and one to run the class activation maps.
+
+For the training data generation:
 
 ```
-docker build -t ml_ins https://github.com/keeeto/interpretable-ml-neutron-spectroscopy
-docker run --rm -ti -p 8888:8888 -p 8889:8889 ml_ins /bin/bash
+docker build -t ml_ins_data_generation https://github.com/keeeto/interpretable-ml-neutron-spectroscopy#:data_generation
+docker run -ti ml_ins_data_generation /bin/bash
 ```
 
 This will put you into a command prompt. To run the data generation:
 
 ```
-conda activate data
-cd ~/interpretable-ml-neutron-spectroscopy/data_generation/resolution && python generate_goodenough_resolution.py
-cd ~/interpretable-ml-neutron-spectroscopy/data_generation/resolution && python generate_dimer_resolution.py
-cd ~/interpretable-ml-neutron-spectroscopy/data_generation/brille/goodenough && bash runjobgoodenough
-cd ~/interpretable-ml-neutron-spectroscopy/data_generation/brille/dimer && bash runjobdimer
+cd /interpretable-ml-neutron-spectroscopy/data_generation/resolution && python generate_goodenough_resolution.py
+cd /interpretable-ml-neutron-spectroscopy/data_generation/resolution && python generate_dimer_resolution.py
+cd /interpretable-ml-neutron-spectroscopy/data_generation/brille/goodenough && bash runjobgoodenough
+cd /interpretable-ml-neutron-spectroscopy/data_generation/brille/dimer && bash runjobdimer
 ```
 
-To run the notebooks
+For the DUQ notebook, to build the image:
 
 ```
-conda activate duq
-jupyter notebook --ip=0.0.0.0 --port=8888 --allow-root &
-conda activate interpret
-jupyter notebook --ip=0.0.0.0 --port=8889 --allow-root &
+docker build -t ml_ins_duq https://github.com/keeeto/interpretable-ml-neutron-spectroscopy#:models/duq
+docker run -ti -p8888:8888 ml_ins_duq 
 ```
 
-Then you can browse the DUQ notebooks at `http://localhost:8888` and the CAM notebooks at `http://localhost:8889`.
-Please note the tokens printed on the command line output as you need these to log on.
+This will start the notebook.
+You should then navigate to `http://localhost:8888/notebooks/models/duq/notebook/duq-publication.ipynb` to load the notebook.
+The password is `pcsmo`.
 
-You can also run these containers in Windows, as long as you have the Windows Subsystem for Linux version 2 (WSL2) in Windows 10.
-Please see the [docker documentation](https://docs.docker.com/docker-for-windows/wsl/) for how to run Docker under Windows.
+For the class-activation map notebooks, to build:
+
+```
+docker build -t ml_ins_interpret https://github.com/keeeto/interpretable-ml-neutron-spectroscopy#:models/interpret
+docker run -ti -p8889:8889 ml_ins_interpret
+```
+
+And navigate to `http://localhost:8889/notebooks/models/interpret/cam-publication.ipynb`.
