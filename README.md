@@ -18,7 +18,7 @@ There are different `conda` environments associated with the different codes:
 
 The notebook examples in the `duq` and `interpret` directories load pre-trained models and apply them to experimental data, so that you can re-create the results from the paper without re-training the networks. The saved weights are too large for this *GitHub* repository, but are available in the associated data repository [**10.5281/zenodo.4088240**](https://zenodo.org/deposit/4088240) in the file `model-weights.tgz`. Once this file is untarred and unzipped, weights files corresponding to those in the notebooks will be present.   
 
-To run the `duq` notebook you should launch a `jupyter` notebook in the `conda` environment described in `environment-torch.yml`
+To run the `duq` notebook you should launch a `jupyter` notebook in the `conda` environment described in `environment-torch.yml`. Alternatively you may wish to run the notebooks in a `docker` container, see the section below for directions.
 ```
 conda env create -f environment_torch.yml -n duq
 conda activate duq
