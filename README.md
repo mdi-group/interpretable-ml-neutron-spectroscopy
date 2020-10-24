@@ -34,15 +34,15 @@ jupyter notebook
 
 ## Using Docker
 
-You can also use the provided Dockerfiles to build Docker containers to run the codes.
+You can also use Docker containers to run the codes.
 There are three containers, one to run SpinW/Brille to generate the training data,
 one to run the DUQ classifier and one to run the class activation maps.
 
 For the training data generation:
 
 ```
-docker build -t ml_ins_data_generation https://github.com/keeeto/interpretable-ml-neutron-spectroscopy#:data_generation
-docker run -ti ml_ins_data_generation /bin/bash
+docker pull mducle/ml_ins_data_generation
+docker run -ti mducle/ml_ins_data_generation /bin/bash
 ```
 
 This will put you into a command prompt. To run the data generation:
@@ -54,10 +54,10 @@ cd /interpretable-ml-neutron-spectroscopy/data_generation/brille/goodenough && b
 cd /interpretable-ml-neutron-spectroscopy/data_generation/brille/dimer && bash runjobdimer
 ```
 
-For the DUQ notebook, to build the image:
+For the DUQ notebook:
 
 ```
-docker build -t ml_ins_duq https://github.com/keeeto/interpretable-ml-neutron-spectroscopy#:models/duq
+docker pull mducle/ml_ins_duq
 docker run -ti -p8888:8888 ml_ins_duq 
 ```
 
@@ -65,10 +65,10 @@ This will start the notebook.
 You should then navigate to `http://localhost:8888/notebooks/models/duq/notebook/duq-publication.ipynb` to load the notebook.
 The password is `pcsmo`.
 
-For the class-activation map notebooks, to build:
+For the class-activation map notebooks:
 
 ```
-docker build -t ml_ins_interpret https://github.com/keeeto/interpretable-ml-neutron-spectroscopy#:models/interpret
+docker pull mducle/ml_ins_interpret
 docker run -ti -p8889:8889 ml_ins_interpret
 ```
 
