@@ -1,7 +1,7 @@
 # interpretable-ml-neutron-spectroscopy
 A repository of code associated with the publication [_Interpretable, calibrated neural networks for analysis and understanding of neutron spectra_](https://arxiv.org/abs/2011.04584)
 
-Data associated with training the neural networks in this repo is available at ![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4270057.svg)]
+Data associated with training the neural networks in this repo is available at ![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4270057.svg)
 ## Generating Data
 
 The training data may also be generated using the code in the `data_generation` folder.
