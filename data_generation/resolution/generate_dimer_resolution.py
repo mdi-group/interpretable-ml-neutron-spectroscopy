@@ -1,6 +1,7 @@
 ###############VALUES TO SET
-prefix = '/work3/isis/scarfxxx/'
-data_path = '/work3/isis/scarfxxx/pcsmo_dimer/'
+libdir = '/opt/mcr'
+import os
+data_path = os.path.dirname(os.path.abspath(__file__))
 J1 = -8.43   # JFW
 J2 = 1.52    # JA1
 J3 = 1.52    # JA2
@@ -26,17 +27,16 @@ run_index = [0]
 #################################
 
 import sys
-libdir = prefix + 'lib/'
 sys.path.append(libdir)
 from resolution_function import readMat, covariance
 import numpy as np
 import time
 
 import os
-mcrpath = '{}/mcr2017b/v93/runtime/glnxa64:{}/mcr2017b/v93/bin/glnxa64:{}/mcr2017b/v93/sys/os/glnxa64'.format(libdir, libdir, libdir)
+mcrpath = '{}/mcr2020a/v98/runtime/glnxa64:{}/mcr2020a/v98/bin/glnxa64:{}/mcr2020a/v98/sys/os/glnxa64'.format(libdir, libdir, libdir)
 if 'LD_LIBRARY_PATH' not in os.environ:
     os.environ['LD_LIBRARY_PATH'] = mcrpath
-else:
+elif 'mcr2020a' not in os.environ['LD_LIBRARY_PATH']:
     os.environ['LD_LIBRARY_PATH'] += mcrpath
 from dimer_spinw import dimer_spinw
 from matlab import double as md
@@ -132,13 +132,16 @@ if len(sys.argv) > 1:
     #remind = np.load('remainder.npy')
     ##run_index = remind[(i0*20):(i0*20+20)]
     #run_index = [remind[i0]]
+    for dd in ['dimer', 'dimer/conv', 'dimer/unconv', 'dimer/label']:
+        if not os.path.exists(dd):
+            os.mkdir(dd)
 print(run_index)
 
 t0 = time.time()
 for ind in run_index:
     fname = filename + str(ind)
     lname = labelfile + str(ind)
-    if len(run_index) > 0:
+    if len(run_index) > 1:
         J1 = float(np.random.uniform(-20, 0))
         J2 = float(np.random.uniform(-3, 3))
         J3 = float(np.random.uniform(-3, 3))
@@ -168,7 +171,7 @@ for ind in run_index:
                          #data.append([q_pos, np.histogram(omegas, bins=10, range=(2, 50), weights=intensities)])
                          data.append({'q':q_pos, 'en':omegas, 'i':intensities})
     else:
-        unconvfile = "unconv/{}_unconvolted.npy".format(fname) if len(run_index) > 0 else "resolution_spec_unconvolted.npy"
+        unconvfile = "dimer/unconv/{}_unconvolted.npy".format(fname) if len(run_index) > 1 else "resolution_spec_unconvolted.npy"
         data = np.load('{}/{}'.format(data_path, unconvfile))
 
     
@@ -184,12 +187,12 @@ for ind in run_index:
         grid_data = do_convolution(output_h, output_k, output_e, data, resolution_table)
         conv_data.append({'ei': ei, 'en':output_e, 'data':grid_data})
 
-    if len(run_index) > 0:
+    if len(run_index) > 1:
         if run_spinw:
-            np.save(data_path + '/unconv/' + fname + "_unconvolted.npy", data)
+            np.save(data_path + '/dimer/unconv/' + fname + "_unconvolted.npy", data)
             #print('JJJJJ', Js)
-            np.save(data_path + '/label/' + lname + ".npy", Js)
-        np.save(data_path + '/conv/' + fname + ".npy", conv_data)
+            np.save(data_path + '/dimer/label/' + lname + ".npy", Js)
+        np.save(data_path + '/dimer/conv/' + fname + ".npy", conv_data)
     else:
         if run_spinw:
             np.save("{}/resolution_spec_unconvolted.npy".format(data_path), data)

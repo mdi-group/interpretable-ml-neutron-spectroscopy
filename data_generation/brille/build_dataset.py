@@ -14,7 +14,7 @@ prefix = os.getcwd()
 data_dir = prefix + '/conv/'
 label_dir = prefix + '/label/'
 
-det_mask = scipy.io.loadmat('/work3/isis/scarf508/pcsmo_tobyfit/nanmask.mat')
+det_mask = scipy.io.loadmat('nanmask.mat')
 det_mask = det_mask['nan_mask']
 
 def build_dataframe(imgpath, labelpath, imgformat='tif', start=0, limit=10000, date_cut = 3000):

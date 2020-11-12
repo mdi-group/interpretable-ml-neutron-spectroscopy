@@ -1,10 +1,10 @@
 #!/bin/bash
 
-prefix=/work3/isis/scarfxxx
-data_path=/work3/isis/scarfxxx/pcsmo_tobyfit/goodenough
+prefix=/opt/mcr
+data_path=`pwd`
 
 echo Setting up environment variables
-MCRROOT=${prefix}/lib/mcr2017b/v98
+MCRROOT=${prefix}/v98
 echo ---
 LD_LIBRARY_PATH=.:${MCRROOT}/runtime/glnxa64 ;
 LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${MCRROOT}/bin/glnxa64 ;
@@ -14,6 +14,11 @@ LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${data_path};
 export LD_LIBRARY_PATH;
 echo LD_LIBRARY_PATH is ${LD_LIBRARY_PATH};
 exe_dir=`dirname "$0"`
+
+if [ ! -d ${data_path}/conv ]
+then
+  mkdir ${data_path}/conv
+fi
 
 for ((ii=0; ii<10; ii++))
 do

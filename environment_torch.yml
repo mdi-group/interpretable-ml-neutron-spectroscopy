@@ -153,5 +153,3 @@ dependencies:
     - termcolor==1.1.0
     - torchsummary==1.5.1
     - tqdm==4.46.1
-prefix: /home/mts87985/src/anaconda3/envs/pytorch
-
