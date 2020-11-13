@@ -19,18 +19,26 @@ class ConvNet(nn.Module):
         
         self.conv3 = nn.Conv2d(16, 16, (1, 3), padding=(0, 0))
         self.conv4 = nn.Conv2d(16, 32, (1, 3), padding=(0, 0))
+        self.conv5 = nn.Conv2d(32, 32, (1, 3), padding=(0, 0))
         self.bn2 = nn.BatchNorm2d(32)
 
-        self.fc1 = nn.Linear(1445184, 64)
+        self.fc1 = nn.Linear(344448, 64)
 
     def compute_features(self, x):
 
         x = F.relu(self.conv1(x))
         x = F.relu(self.conv2(x))
         x = F.max_pool2d(x, (1, 2), (1, 2))
+        x = self.bn1(x)
 
         x = F.relu(self.conv3(x))
         x = F.relu(self.conv4(x))
+        x = F.max_pool2d(x, (2, 2), (2, 2))
+        x = self.bn2(x)
+
+        x = F.relu(self.conv5(x))
+        x = F.relu(self.conv5(x))
+        x = self.bn2(x)
 
         x = x.flatten(1)
         x = F.relu(self.fc1(x))

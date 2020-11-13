@@ -17,6 +17,7 @@ import copy
 import matplotlib.pyplot as plt
 plt.style.use('sciml-style')
 from tqdm.notebook import tqdm
+torch.backends.cudnn.enabled = False
 
 def norm_im(im):
     maxval = np.max(im)
@@ -29,11 +30,11 @@ di_data_file = data_path + 'dimer/resolution/simulated.npy'
 #train_data_file = 'training_data.pickle'
 
 if os.path.exists(ge_data_file):
-    ge_data = np.load(ge_data_file)[:2000]
+    ge_data = np.squeeze(np.load(ge_data_file)[:2000].squeeze())
 else:
     print('Goodenough data not found.')
 if os.path.exists(di_data_file):
-    di_data = np.load(di_data_file)[:2000]
+    di_data = np.squeeze(np.load(di_data_file)[:2000])
 else:
     print('Dimer data not found.')
 
@@ -45,27 +46,33 @@ X, y = shuffle(np.concatenate((ge_data, di_data)), labels)
 y = np.array([int(b[0]) for b in y])
 #X = np.concatenate((ge_data, di_data))
 #y = labels
-#X = np.expand_dims(X, axis=3)
+X = np.expand_dims(X, axis=3)
 X = np.moveaxis(X, -1,1)
 X = np.clip(X, 0, 120)
 d = [norm_im(i) for i in X]
 X = np.array(d)
 np.nan_to_num(X, copy = False, nan=0)
 
-#print(y[1], encoded_Y[1])
+#
+if torch.cuda.is_available():  
+  print("GPU found")
+  device = "cuda:0" 
+else:  
+  print("GPU not found")
+  device = "cpu"
 
-batch_size = 64
-X_train = X[:3000]
-y_train = y[:3000]
-X_test = X[3000:]
-y_test = y[3000:]
+batch_size = 32
+X_train = X[:3500]
+y_train = y[:3500]
+X_test = X[3500:]
+y_test = y[3500:]
 print(X.shape, y.shape)
 
 ds_train = torch.utils.data.TensorDataset(torch.from_numpy(X_train).float(), F.one_hot(torch.from_numpy(y_train)).float())
 dl_train = torch.utils.data.DataLoader(ds_train, batch_size=batch_size, shuffle=True, drop_last=True)
 
 ds_test = torch.utils.data.TensorDataset(torch.from_numpy(X_test).float(), F.one_hot(torch.from_numpy(y_test)).float())
-dl_test = torch.utils.data.DataLoader(ds_test, batch_size=200, shuffle=False)
+dl_test = torch.utils.data.DataLoader(ds_test, batch_size=batch_size, shuffle=False)
 
 np.random.seed(0)
 torch.manual_seed(0)
@@ -74,7 +81,6 @@ l_gradient_penalty = 1.0
 
 model = CNN_DUQ(input_size=(240, 400, 1), num_classes=2, embedding_size=64,
                learnable_length_scale=False, length_scale=1., gamma=1.)
-
 optimizer = torch.optim.SGD(model.parameters(), lr=0.01, momentum=0.9, weight_decay=1e-4)
 
 def calc_gradient_penalty(x, y_pred):
@@ -115,6 +121,7 @@ def step(engine, batch):
     model.train()
     optimizer.zero_grad()
     x, y = batch
+    #x, y = x.cuda(), y.cuda()
     x.requires_grad_(True)
     z, y_pred = model(x)
     loss1 =  F.binary_cross_entropy(y_pred, y)
@@ -131,6 +138,7 @@ def step(engine, batch):
 def eval_step(engine, batch):
     model.eval()
     x, y = batch
+    #x, y = x.cuda(), y.cuda()
     x.requires_grad_(True)
     z, y_pred = model(x)
 
@@ -155,6 +163,11 @@ dl_train = torch.utils.data.DataLoader(ds_train, batch_size=batch_size, shuffle=
 ds_test = torch.utils.data.TensorDataset(torch.from_numpy(X_test).float(), F.one_hot(torch.from_numpy(y_test)).float())
 dl_test = torch.utils.data.DataLoader(ds_test, batch_size=200, shuffle=False)
 
+#ds_train = ds_train.to(device).type(torch.float)
+#dl_train = dl_train.to(device).type(torch.float)
+#ds_test = ds_test.to(device).type(torch.float)
+#dl_test = dl_test.to(device).type(torch.float)
+
 t_start = time.time()
 @trainer.on(Events.EPOCH_COMPLETED)
 def log_results(trainer):
@@ -166,4 +179,4 @@ def log_results(trainer):
                  time.time() - t_start))
 
 trainer.run(dl_train, max_epochs=100)
-torch.save(model.state_dict(), './uq-discrim-resolution.pt')
+torch.save(model.state_dict(), './uq-discrim-newer.pt')
