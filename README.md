@@ -1,7 +1,7 @@
 # interpretable-ml-neutron-spectroscopy
 A repository of code associated with the publication [_Interpretable, calibrated neural networks for analysis and understanding of neutron spectra_](https://arxiv.org/abs/2011.04584)
 
-Data associated with training the neural networks in this repo is available at [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4088240.svg)](https://doi.org/10.5281/zenodo.4088240)
+Data associated with training the neural networks in this repo is available at [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4270057.svg)](https://doi.org/10.5281/zenodo.4270057)
 ## Generating Data
 
 The training data may also be generated using the code in the `data_generation` folder.
@@ -16,7 +16,7 @@ There are different `conda` environments associated with the different codes:
 
 ## Notebook examples
 
-The notebook examples in the `duq` and `interpret` directories load pre-trained models and apply them to experimental data, so that you can re-create the results from the paper without re-training the networks. The saved weights are too large for this *GitHub* repository, but are available in the associated data repository [**10.5281/zenodo.4088240**](https://zenodo.org/deposit/4088240) in the file `model-weights.tgz`. Once this file is untarred and unzipped, weights files corresponding to those in the notebooks will be present.   
+The notebook examples in the `duq` and `interpret` directories load pre-trained models and apply them to experimental data, so that you can re-create the results from the paper without re-training the networks. The saved weights are too large for this *GitHub* repository, but are available in the associated data repository [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4270057.svg)](https://doi.org/10.5281/zenodo.4270057) in the file `model-weights.tgz`. Once this file is untarred and unzipped, weights files corresponding to those in the notebooks will be present.   
 
 To run the `duq` notebook you should launch a `jupyter` notebook in the `conda` environment described in `environment-torch.yml`. Alternatively you may wish to run the notebooks in a `docker` container, see the section below for directions.
 ```
