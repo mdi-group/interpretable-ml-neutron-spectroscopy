@@ -76,10 +76,10 @@ And navigate to `http://localhost:8889/notebooks/models/interpret/cam-publicatio
 
 # 4. Citation
 
-Cite this benchmark suite as follows:
+Cite this repo as follows:
 
 ```
-@misc{scimlbench:2021,
+@misc{ins-interp:2021,
 title  = {Interpretable, calibrated neural networks for analysis and understanding of inelastic neutron scattering data},
 author = {Keith T. Butler, Manh Duc Le, Jeyan Thiyagalingam, Toby G. Perring},
 url    = {[https://github.com/stfc-sciml/ml-surrogate-accel-injector](https://github.com/keeeto/interpretable-ml-neutron-spectroscopy)},
