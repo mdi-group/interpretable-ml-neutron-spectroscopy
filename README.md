@@ -73,3 +73,20 @@ docker run -ti -p8889:8889 ml_ins_interpret
 ```
 
 And navigate to `http://localhost:8889/notebooks/models/interpret/cam-publication.ipynb`.
+
+# 4. Citation
+
+Cite this benchmark suite as follows:
+
+```
+@misc{scimlbench:2021,
+title  = {Interpretable, calibrated neural networks for analysis and understanding of inelastic neutron scattering data},
+author = {Keith T. Butler, Manh Duc Le, Jeyan Thiyagalingam, Toby G. Perring},
+url    = {[https://github.com/stfc-sciml/ml-surrogate-accel-injector](https://github.com/keeeto/interpretable-ml-neutron-spectroscopy)},
+year   = {2021}
+ }
+```
+
+# 5. Acknowledgments
+
+TGP thanks co-authors A T Boothroyd and D Prabhakaran for permission to use the datasets from those experiments. This work was partially supported by wave 1 of The UKRI Strategic Priorities Fund under the EPSRC Grant EP/T001569/1, particularly the 'AI for Science' theme within that grant and The Alan Turing Institute. The simulated datasets were generated using computing resources provided by STFC Scientific Computing Department's SCARF cluster.
