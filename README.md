@@ -1,4 +1,7 @@
 # interpretable-ml-neutron-spectroscopy
+
+[![DOI](https://zenodo.org/badge/304023254.svg)](https://zenodo.org/doi/10.5281/zenodo.13321065)
+
 A repository of code associated with the publication [_Interpretable, calibrated neural networks for analysis and understanding of neutron spectra_](https://arxiv.org/abs/2011.04584)
 
 Data associated with training the neural networks in this repo is available at [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4270057.svg)](https://doi.org/10.5281/zenodo.4270057)
@@ -82,7 +85,8 @@ Cite this repo as follows:
 @misc{ins-interp:2021,
 title  = {Interpretable, calibrated neural networks for analysis and understanding of inelastic neutron scattering data},
 author = {Keith T. Butler, Manh Duc Le, Jeyan Thiyagalingam, Toby G. Perring},
-url    = {[https://github.com/stfc-sciml/ml-surrogate-accel-injector](https://github.com/keeeto/interpretable-ml-neutron-spectroscopy)},
+url    = {https://github.com/mdi-group/interpretable-ml-neutron-spectroscopy/},
+doi    = {10.5281/zenodo.13321066},
 year   = {2021}
  }
 ```
